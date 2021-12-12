@@ -4,3 +4,12 @@ git status
 git add 
 git commit
 git push
+
+
+
+int arr[100];
+arr[i] = 10;
+
+cin >> arr[0];
+
+	
