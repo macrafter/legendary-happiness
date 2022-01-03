@@ -42,7 +42,7 @@ int main() {
 	//nebula
 	Texture2D nebula = LoadTexture("./textures/12_nebula_spritesheet.png");
 
-	const int sizeOfNebulae = 3;
+	const int sizeOfNebulae = 50;
 	AnimData nebulae[sizeOfNebulae];
 
 	for(int i = 0;i < sizeOfNebulae;i++) {

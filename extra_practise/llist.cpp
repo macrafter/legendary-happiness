@@ -11,7 +11,7 @@ struct Node {
     struct Node *next;
 };
 
-struct Node *list = NULL;
+Node *list = NULL;
 
 
 void insert(int value) {
@@ -25,6 +25,10 @@ void insert(int value) {
 
     list = node;
 }
+
+
+
+
 
 void delete_list_item() {
     if (list != NULL) {
@@ -58,9 +62,7 @@ int main() {
     print_list();
 
     cout << "inserting..." << endl;
-
-    for (int i = 0; i < 100000; i++)
-        insert(i + 100);
+    insert(300);
 
     print_list();
 }
