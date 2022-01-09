@@ -1,6 +1,8 @@
 #include <iostream>
 #include "../raylib-master/src/raylib.h"
 #include "../raylib-master/src/raymath.h"
+#include "Character.h" 
+using namespace std;
 // g++ main.cpp -L../raylib-master/src -lraylib
 
 int main() {
@@ -9,46 +11,36 @@ int main() {
 
 	Texture2D map = LoadTexture("./nature_tileset/OpenWorldMap24x24.png");
 	Vector2 mapPos{0.0, 0.0};
-	float speed = 4.0;
-	float rightLeft;
+	const float mapScale{4.0f};
 
-	Texture2D knight = LoadTexture("characters/knight_idle_spritesheet.png");
-	Vector2 knightPos{
-		windowWidth/2.0f - 4.0f * (0.5f * (float)knight.width/6.0f),
-		windowHeight/2.0f - 4.0f * (0.5f * (float)knight.height)
-	};
-	
+	Character knight;
+	knight.setScreenPos(windowWidth, windowHeight);
+
 	SetTargetFPS(60);
 	while(!WindowShouldClose()) {
 		
 		BeginDrawing();
 		ClearBackground(WHITE);
 
-		Vector2 direction{0.0, 0.0};
-
-		if(IsKeyDown(KEY_A)) direction.x -= 1.0;
-		if(IsKeyDown(KEY_D)) direction.x += 1.0;
-		if(IsKeyDown(KEY_W)) direction.y -= 1.0;
-		if(IsKeyDown(KEY_S)) direction.y += 1.0;
-		
-		if(Vector2Length(direction) != 0.0) {
-			//set mapPos = mapPos - direction
-		
-			mapPos = Vector2Subtract(mapPos, Vector2Scale(Vector2Normalize(direction), speed));
-			direction.x < 0.f ? rightLeft = -1.0f: rightLeft = 1.0f;
-		}
+		mapPos = Vector2Scale(knight.getWorldPos(), -1.f);
 
 		//draws map
-		DrawTextureEx(map, mapPos, 0.0, 4.0, WHITE);
-		
-		//draws knight
-		Rectangle source{0.f, 0.f, rightLeft * (float)knight.width/6.f, (float)knight.height};
-		Rectangle dest{knightPos.x, knightPos.y, 4.0f * knight.width/6.0f, 4.0f * (float)knight.height};
-		DrawTexturePro(knight, source, dest, Vector2{}, 0.f, WHITE);
+		DrawTextureEx(map, mapPos, 0.0, mapScale, WHITE);
+		knight.tick(GetFrameTime());
+
+		//check map bounds
+		if (knight.getWorldPos().x < 0.f or
+			knight.getWorldPos().y < 0.f or
+			knight.getWorldPos().x + windowWidth > map.width * 4.0 or
+			knight.getWorldPos().y + windowHeight > map.height * 4.0) {
+
+			knight.undoMovement();
+		}
 
 		EndDrawing();	
 	}
-
-	UnloadTexture(map);
+    
+	//UnloadTexture(map);
+	//UnloadTexture(knight);
 	CloseWindow();
 }
