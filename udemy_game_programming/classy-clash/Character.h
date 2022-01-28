@@ -1,31 +1,22 @@
+#ifndef CHARACTER_H
+#define CHARACTER_H
 #include "../raylib-master/src/raylib.h"
+#include "BaseCharacter.h"
 
-class Character {
+class Character : public BaseCharacter{
 public:
-	Character();
-	Vector2 getWorldPos() {return worldPos;}
-	void setScreenPos(int winWidth, int winHeight);
-	void tick(float deltaTime);
-	void undoMovement();
-
+	Character(int winWidth, int winHeight);
+	virtual void tick(float deltaTime) override;
+	virtual Vector2 getScreenPos() override;
+	Rectangle getWeaponCollisionRec() {return weaponCollisionRec;}
+	float getHealth() const {return health;}
+	void takeDamage(float damage);
 private:
-	Texture2D texture{LoadTexture("./characters/knight_idle_spritesheet.png")};
-	Texture2D idle{LoadTexture("./characters/knight_idle_spritesheet.png")};
-	Texture2D run{LoadTexture("./characters/knight_run_spritesheet.png")};
-	
-	Vector2 screenPos{};
-	Vector2 worldPos{};
-	Vector2 worldPosLastFrame{};
-	
-	// 1 : facing right, -1 : facing left
-	float rightLeft{1.f};
-	
-	//animation variables
-	float runningTime{0.f};
-	int frame{0};
-	int maxFrames{6};
-	float updateTime{1.f/12.f};
-	float speed{4.f};
-	float width{};
-	float height{};
+	int windowWidth{};
+	int windowHeight{};
+	Texture2D weapon{LoadTexture("./characters/weapon_sword.png")};
+	Rectangle weaponCollisionRec{};
+	float health{100.f};
 };
+
+#endif

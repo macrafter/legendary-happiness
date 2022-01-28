@@ -1,5 +1,5 @@
 #include "Character.h"
-#include "raymath.h"
+#include "../../raylib-master/src/raymath.h"
 
 Character::Character(int winWidth, int winHeight) :
     windowWidth(winWidth),

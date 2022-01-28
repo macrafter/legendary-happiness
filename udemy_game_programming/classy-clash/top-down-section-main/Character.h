@@ -1,7 +1,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
-#include "raylib.h"
+#include "../../raylib-master/src/raylib.h"
 #include "BaseCharacter.h"
 
 class Character : public BaseCharacter
